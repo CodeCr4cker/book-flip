@@ -1,99 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>coderstar</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coderstar</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --neon-yellow: #fcff00;
+      --neon-shadow-yellow: 0 0 15px #fcff00, 0 0 30px #fcff00, 0 0 60px #fcff00;
+    }
+
+    .page-content {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .page-content.animate-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      min-height: 100dvh;
+      perspective: 1000px;
+      font-size: 1rem;
+      overflow: hidden;
+      color: hsl(180 68% 5%);
+      background-image: radial-gradient(circle farthest-corner at 50% 50%, hsl(189, 56%, 73%) 30%, hsl(150, 80%, 75%) 100%);
+    }
+
+    .book {
+      position: relative;
+      display: flex;
+      margin: auto;
+      width: 40cqmin;
+      height: 400px;
+      pointer-events: auto;
+      transform-style: preserve-3d;
+      transition: translate 1s;
+      translate: calc(min(var(--c), 1) * 50%) 0%;
+      rotate: 1 0 0 30deg;
+      counter-reset: page -1;
+    }
+
+    .neon-typing {
+      color: var(--neon-yellow);
+      text-shadow: var(--neon-shadow-yellow);
+    }
+
+    .page {
+      --thickness: 4;
+      flex: none;
+      display: flex;
+      width: 100%;
+      font-size: 1.5cqmin;
+      pointer-events: all;
+      user-select: none;
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      transition:
+        transform 1s,
+        rotate 1s ease-in calc((min(var(--i), var(--c)) - max(var(--i), var(--c))) * 50ms);
+      translate: calc(var(--i) * -100%) 0px 0px;
+      transform: translateZ( calc((var(--c) - var(--i) - 0.5) * calc(var(--thickness) * .23cqmin)));
+      rotate: 0 1 0 calc(clamp(0, var(--c) - var(--i), 1) * -180deg);
+      box-shadow: 0em .5em 1em -.2em #00000020;
+    }
+
+    .front,
+    .back {
+      position: relative;
+      flex: none;
+      width: 100%;
+      backface-visibility: hidden;
+      overflow: hidden;
+      background-color: #fff;
+      display: flex;
+      flex-flow: column wrap;
+      justify-content: space-between;
+      padding: 2em;
+      border: 1px solid #0002;
+    }
+
+    .front::after,
+    .back::after {
+      position: absolute;
+      bottom: 1em;
+      counter-increment: page;
+      content: counter(page) ".";
+      font-size: 0.8em;
+    }
+
+    .front::after { right: 1em; }
+    .back {
+      translate: -100% 0;
+      rotate: 0 1 0 180deg;
+    }
+    .back::after { left: 1em; }
+
+    .cover {
+      background: radial-gradient(circle farthest-corner at 80% 20%, hsl(150 80% 20% / .3) 0%, hsl(170 60% 10% / .1) 100%),
+      hsl(231, 32%, 29%) url("https://picsum.photos/id/984/800/900") 50% / cover;
+      color: hsl(200 30% 98%);
+      pointer-events: auto;
+    }
+
+    .cover::after { content: ""; }
+
+    h1 {
+      font-size: 1.8em;
+      margin: 0.5em 0;
+    }
+
+    h2 {
+      font-size: 1.3em;
+      margin: 0.4em 0;
+    }
+
+    p {
+      font-size: 0.95em;
+      margin: 0.4em 0;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        font-size: 0.9rem;
+      }
+
+      .page {
+        font-size: 1.2cqmin;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      h2 {
+        font-size: 1.1em;
+      }
+
+      p {
+        font-size: 0.85em;
+      }
+      .book{
+        height: 200px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="book">
-        <div class="page">
-          <div class="front cover">
-          <h1>About me</h1>
-          <p>2025.<br />Divyanshu Pandey</p>
-        </div>
-        <div class="back">
-          <h2>index</h2>
-          <p>my introduction</p>
-          <p>Why I Code 💻</p>
-          <p>What I Know 🧠</p>
-          <p>My Vision 🚀</p>
-          <p>Let's Connect! 🤝</p>
-          <p>Learning Philosophy</p>
-          <p>Thank You for Being Here 🙏</p>
-        </div>
+  <div class="book">
+    <div class="page">
+      <div class="front cover">
+        <h1>About me</h1>
+        <p>2025.<br />Divyanshu Pandey</p>
       </div>
+      <div class="back">
+        <h2>index</h2>
+        <p>my introduction</p>
+        <p>Why I Code 💻</p>
+        <p>What I Know 🧠</p>
+        <p>My Vision 🚀</p>
+        <p>Let's Connect! 🤝</p>
+        <p>Learning Philosophy</p>
+        <p>Thank You for Being Here 🙏</p>
+      </div>
+    </div>
 
-      <div class="page">
-        <div class="front">
-          <div class="page-content">
-           
-            <h2><span id="type1" class="neon-typing"></span></h2>
-          </div>
-        </div>
-        <div class="back">
-          <div class="page-content">
-          <h2>my introduction</h2>
-            <h2><span id="type2" class="neon-typing"></span></h2>
-          </div>
-        </div>
-      </div>
+    <div class="page">
+      <div class="front"><div class="page-content"><h2><span id="type1" class="neon-typing"></span></h2></div></div>
+      <div class="back"><div class="page-content"><h2>my introduction</h2><h2><span id="type2" class="neon-typing"></span></h2></div></div>
+    </div>
 
-      <div class="page">
-        <div class="front">
-          <div class="page-content">
-            <h2>Why I Code 💻</h2>
-            <h2><span id="type3" class="neon-typing"></span></h2>
-          </div>
-        </div>
-        <div class="back">
-          <div class="page-content">
-            <h2>What I Know 🧠</h2>
-            <h2><span id="type4" class="neon-typing"></span></h2>
-          </div>
-        </div>
-      </div>
+    <div class="page">
+      <div class="front"><div class="page-content"><h2>Why I Code 💻</h2><h2><span id="type3" class="neon-typing"></span></h2></div></div>
+      <div class="back"><div class="page-content"><h2>What I Know 🧠</h2><h2><span id="type4" class="neon-typing"></span></h2></div></div>
+    </div>
 
-      <div class="page">
-        <div class="front">
-          <div class="page-content">
-            <h2>My Vision 🚀</h2>
-            <h2><span id="type5" class="neon-typing"></span></h2>
-          </div>
-        </div>
-        <div class="back">
-          <div class="page-content">
-            <h2>Let's Connect! 🤝</h2>
-            <h2><span id="type6" class="neon-typing"></span></h2>
-          </div>
-        </div>
-      </div>
+    <div class="page">
+      <div class="front"><div class="page-content"><h2>My Vision 🚀</h2><h2><span id="type5" class="neon-typing"></span></h2></div></div>
+      <div class="back"><div class="page-content"><h2>Let's Connect! 🤝</h2><h2><span id="type6" class="neon-typing"></span></h2></div></div>
+    </div>
 
-      <div class="page">
-        <div class="front">
-          <div class="page-content">
-            <h2>Learning Philosophy</h2>
-            <h2><span id="type7" class="neon-typing"></span></h2>
-          </div>
-        </div>
-        <div class="back">
-          <div class="page-content">
-            <h2>Thank You for Being Here 🙏</h2>
-            <h2><span id="type8" class="neon-typing"></span></h2>
-          </div>
-        </div>
-      </div>
+    <div class="page">
+      <div class="front"><div class="page-content"><h2>Learning Philosophy</h2><h2><span id="type7" class="neon-typing"></span></h2></div></div>
+      <div class="back"><div class="page-content"><h2>Thank You for Being Here 🙏</h2><h2><span id="type8" class="neon-typing"></span></h2></div></div>
+    </div>
 
-      <div class="page">
-        <div class="front">
-          <img src="https://picsum.photos/id/1073/600/600" alt="Img 2" />
-        </div>
-        <div class="back cover"></div>
-      </div>
+    <div class="page">
+      <div class="front"><img src="https://picsum.photos/id/1073/600/600" alt="Img 2" /></div>
+      <div class="back cover"></div>
     </div>
   </div>
 
-    <script src="script.js"></script>
+  <script>
+    let globalClicked = false;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const elBook = document.querySelector(".book");
+      flipBook(elBook);
+    });
+
+    function flipBook(elBook) {
+      elBook.style.setProperty("--c", 0);
+      const pages = elBook.querySelectorAll(".page");
+      pages.forEach((page, idx) => page.style.setProperty("--i", idx));
+
+      const coverPage = pages[0];
+      coverPage.addEventListener("click", () => {
+        if (globalClicked) return;
+        globalClicked = true;
+        elBook.style.setProperty("--c", 1);
+        setTimeout(() => startTypingSequence(elBook), 1000);
+      });
+
+      window.resetBook = () => {
+        globalClicked = false;
+        elBook.style.setProperty("--c", 0);
+        document.querySelectorAll('.neon-typing').forEach(el => el.innerHTML = '');
+        document.querySelectorAll('.page-content').forEach(content => content.classList.remove('animate-in'));
+        console.log("Book reset completed");
+      };
+    }
+
+    const typingPages = [
+      {
+        front: "#type1",
+        back: "#type2",
+        frontText: ` Jay Shree Ram`,
+        backText: ` I’m a 12th standard student who’s deeply passionate about coding and creativity...`
+      },
+      {
+        front: "#type3",
+        back: "#type4",
+        frontText: ` For me, coding is not just about writing lines of code...`,
+        backText: ` I have hands-on experience in HTML, CSS, JavaScript...`
+      },
+      {
+        front: "#type5",
+        back: "#type6",
+        frontText: ` My goal is to become a full-stack developer...`,
+        backText: `I love collaborating with other developers...`
+      },
+      {
+        front: "#type7",
+        back: "#type8",
+        frontText: `I believe in learning by doing...`,
+        backText: `Your time means a lot to me...`
+      }
+    ];
+
+    function typeText(el, text, callback) {
+      let i = 0;
+      el.innerHTML = "";
+      function typeChar() {
+        if (i < text.length) {
+          el.innerHTML += text[i++];
+          setTimeout(typeChar, 30);
+        } else {
+          callback && callback();
+        }
+      }
+      typeChar();
+    }
+
+    function startTypingSequence(elBook) {
+      let currentPage = 0;
+
+      function processPage() {
+        if (currentPage >= typingPages.length) return;
+
+        const { front, back, frontText, backText } = typingPages[currentPage];
+        const frontEl = document.querySelector(front);
+        const backEl = document.querySelector(back);
+        const frontContent = frontEl.closest('.front').querySelector('.page-content');
+        const backContent = backEl.closest('.back').querySelector('.page-content');
+
+        setTimeout(() => {
+          frontContent.classList.add('animate-in');
+          setTimeout(() => {
+            typeText(frontEl, frontText, () => {
+              setTimeout(() => {
+                elBook.style.setProperty("--c", currentPage + 2);
+                setTimeout(() => {
+                  backContent.classList.add('animate-in');
+                  setTimeout(() => {
+                    typeText(backEl, backText, () => {
+                      setTimeout(() => {
+                        currentPage++;
+                        if (currentPage < typingPages.length) {
+                          elBook.style.setProperty("--c", currentPage + 1);
+                          setTimeout(processPage, 1000);
+                        } else {
+                          elBook.style.setProperty("--c", 5);
+                          setTimeout(() => {
+                            closeAndResetBook(elBook);
+                          }, 3000);
+                        }
+                      }, 2000);
+                    });
+                  }, 300);
+                }, 1000);
+              }, 1000);
+            });
+          }, 300);
+        }, 500);
+      }
+
+      processPage();
+    }
+
+    function closeAndResetBook(elBook) {
+      let currentC = parseInt(elBook.style.getPropertyValue("--c")) || 5;
+      function closePage() {
+        if (currentC > 0) {
+          currentC--;
+          elBook.style.setProperty("--c", currentC);
+          setTimeout(closePage, 400);
+        } else {
+          setTimeout(() => {
+            window.resetBook();
+          }, 500);
+        }
+      }
+      closePage();
+    }
+  </script>
 </body>
 </html>
