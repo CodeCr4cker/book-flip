@@ -1,7 +1,10 @@
 * { box-sizing: border-box; }
 
 /* FlipBook */
-
+    :root {
+      --neon-yellow: #fcff00;
+      --neon-shadow-yellow: 0 0 15px #fcff00, 0 0 30px #fcff00, 0 0 60px #fcff00;
+    }
 body {
   /* or any other parent wrapper */
   margin: 0;
@@ -27,7 +30,10 @@ body {
   /* Incline on the X axis for pages preview */
   rotate: 1 0 0 30deg;
 }
-
+.neon-typing {
+      color: var(--neon-yellow);
+      text-shadow: var(--neon-shadow-yellow);
+}
 .page {
   /* PS: Don't go below thickness 0.5 or the pages might transpare */
   --thickness: 4;
